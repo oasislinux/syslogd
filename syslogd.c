@@ -21,7 +21,7 @@ codename(CODE *code, int c)
 }
 
 int
-main(int argc, char *argv[])
+main(void)
 {
 	struct sockaddr_un addr = {
 		.sun_family = AF_UNIX,
