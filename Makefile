@@ -14,3 +14,7 @@ all: syslogd
 install: syslogd
 	mkdir -p $(DESTDIR)$(BINDIR)
 	cp syslogd $(DESTDIR)$(BINDIR)
+
+.PHONY: clean
+clean:
+	rm -f syslogd
