@@ -29,9 +29,9 @@ main(int argc, char *argv[])
 	};
 	int s, code;
 	FILE *f;
-	char *line = NULL, *p;
-	size_t sz = 0;
-	ssize_t n;
+	char *buf = NULL, *pos;
+	size_t len = 0;
+	ssize_t ret;
 	const char *pri, *fac;
 
 	umask(0);
@@ -46,20 +46,20 @@ main(int argc, char *argv[])
 		err(1, "fdopen");
 	setlinebuf(stdout);
 	for (;;) {
-		n = getline(&line, &sz, f);
-		if (n == -1)
+		ret = getline(&buf, &len, f);
+		if (ret == -1)
 			break;
-		p = line;
-		if (*p != '<')
+		pos = buf;
+		if (*pos != '<')
 			continue;
-		++p;
-		code = strtol(p, &p, 10);
-		if (*p != '>')
+		++pos;
+		code = strtol(pos, &pos, 10);
+		if (*pos != '>')
 			continue;
-		++p;
+		++pos;
 		pri = codename(prioritynames, code & LOG_PRIMASK);
 		fac = codename(facilitynames, code & LOG_FACMASK);
-		printf("%s.%s: %s", pri, fac, p);
+		printf("%s.%s: %s", pri, fac, pos);
 	}
 	fclose(f);
 
